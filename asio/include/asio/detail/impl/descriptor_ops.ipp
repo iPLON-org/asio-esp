@@ -137,7 +137,7 @@ bool set_internal_non_blocking(int d, state_type& state,
   }
 
   errno = 0;
-#if defined(__SYMBIAN32__)
+#if defined(__SYMBIAN32__) || defined(ESP_PLATFORM)
   int result = error_wrapper(::fcntl(d, F_GETFL, 0), ec);
   if (result >= 0)
   {

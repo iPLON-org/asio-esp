@@ -73,7 +73,7 @@ asio::error_code reactive_serial_port_service::open(
   s = descriptor_ops::error_wrapper(::tcgetattr(fd, &ios), ec);
   if (s >= 0)
   {
-#if defined(_BSD_SOURCE) || defined(_DEFAULT_SOURCE)
+#if (defined(_BSD_SOURCE) || defined(_DEFAULT_SOURCE)) && ! defined(ESP_PLATFORM)
     ::cfmakeraw(&ios);
 #else
     ios.c_iflag &= ~(IGNBRK | BRKINT | PARMRK
