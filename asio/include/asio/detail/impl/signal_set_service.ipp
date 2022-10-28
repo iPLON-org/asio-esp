@@ -587,7 +587,8 @@ void signal_set_service::open_descriptors()
 {
 #if !defined(ASIO_WINDOWS) \
   && !defined(ASIO_WINDOWS_RUNTIME) \
-  && !defined(__CYGWIN__)
+  && !defined(__CYGWIN__) \
+  && !defined(ESP_PLATFORM)
   signal_state* state = get_signal_state();
 
   int pipe_fds[2];
