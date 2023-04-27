@@ -2,7 +2,7 @@
 // detail/socket_select_interrupter.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2019 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2022 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -21,8 +21,7 @@
 
 #if defined(ASIO_WINDOWS) \
   || defined(__CYGWIN__) \
-  || defined(__SYMBIAN32__) \
-  || defined(ESP_PLATFORM)
+  || defined(__SYMBIAN32__)
 
 #include "asio/detail/socket_types.hpp"
 
@@ -46,7 +45,7 @@ public:
   // Interrupt the select call.
   ASIO_DECL void interrupt();
 
-  // Reset the select interrupt. Returns true if the call was interrupted.
+  // Reset the select interrupter. Returns true if the reset was successful.
   ASIO_DECL bool reset();
 
   // Get the read descriptor to be passed to select.
@@ -86,7 +85,6 @@ private:
 #endif // defined(ASIO_WINDOWS)
        // || defined(__CYGWIN__)
        // || defined(__SYMBIAN32__)
-       // || defined(ESP_PLATFORM)
 
 #endif // !defined(ASIO_WINDOWS_RUNTIME)
 
