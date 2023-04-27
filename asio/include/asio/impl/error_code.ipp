@@ -95,7 +95,7 @@ public:
     if (value == ECANCELED)
       return "Operation aborted.";
 #endif // !defined(__sun)
-#if defined(__sun) || defined(__QNX__) || defined(__SYMBIAN32__)
+#if defined(__sun) || defined(__QNX__) || defined(__SYMBIAN32__) || defined(ESP_PLATFORM)
     using namespace std;
     return strerror(value);
 #else

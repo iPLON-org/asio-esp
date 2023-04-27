@@ -87,6 +87,7 @@ public:
        // && !defined(SSL_OP_NO_COMPRESSION)
 #if !defined(OPENSSL_IS_BORINGSSL) \
     && !defined(ASIO_USE_WOLFSSL) \
+    && !defined(ASIO_USE_ESP_OPENSSL) \
     && (OPENSSL_VERSION_NUMBER < 0x30000000L)
     ::CONF_modules_unload(1);
 #endif // !defined(OPENSSL_IS_BORINGSSL)

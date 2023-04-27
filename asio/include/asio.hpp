@@ -15,6 +15,10 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
+#if defined(ESP_PLATFORM)
+# include "esp_asio_config.h"
+#endif // defined(ESP_PLATFORM)
+
 #include "asio/any_completion_executor.hpp"
 #include "asio/any_completion_handler.hpp"
 #include "asio/any_io_executor.hpp"

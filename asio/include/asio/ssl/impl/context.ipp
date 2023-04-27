@@ -76,6 +76,10 @@ context::context(context::method m)
     asio::detail::throw_error(
         asio::error::invalid_argument, "context");
     break;
+#if !(defined(ASIO_USE_WOLFSSL) && defined(ESP_PLATFORM))
+  case context::sslv2:
+    handle_ = ::SSL_CTX_new(::SSLv2_method());
+    break;
 #else // (OPENSSL_VERSION_NUMBER >= 0x10100000L) || defined(OPENSSL_NO_SSL2)
   case context::sslv2:
     handle_ = ::SSL_CTX_new(::SSLv2_method());
@@ -397,6 +401,7 @@ context::~context()
   if (handle_)
   {
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
+      && !defined (ASIO_USE_ESP_OPENSSL) \
       && (!defined(LIBRESSL_VERSION_NUMBER) \
         || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
@@ -411,6 +416,7 @@ context::~context()
             cb_userdata);
       delete callback;
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
+      && !defined (ASIO_USE_ESP_OPENSSL) \
       && (!defined(LIBRESSL_VERSION_NUMBER) \
         || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
@@ -747,7 +753,8 @@ ASIO_SYNC_OP_VOID context::use_certificate_chain(
   if (bio.p)
   {
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
-      && (!defined(LIBRESSL_VERSION_NUMBER) \
+    && !defined(ASIO_USE_ESP_OPENSSL)) \
+    && (!defined(LIBRESSL_VERSION_NUMBER) \
         || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
     pem_password_cb* callback = ::SSL_CTX_get_default_passwd_cb(handle_);
@@ -774,6 +781,7 @@ ASIO_SYNC_OP_VOID context::use_certificate_chain(
     }
 
 #if ((OPENSSL_VERSION_NUMBER >= 0x10002000L) \
+      && !defined(ASIO_USE_ESP_OPENSSL)) \
       && (!defined(LIBRESSL_VERSION_NUMBER) \
         || LIBRESSL_VERSION_NUMBER >= 0x2090100fL)) \
     || defined(ASIO_USE_WOLFSSL)
@@ -848,6 +856,7 @@ ASIO_SYNC_OP_VOID context::use_private_key(
   ::ERR_clear_error();
 
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
+      && !defined(ASIO_USE_ESP_OPENSSL)) \
       && (!defined(LIBRESSL_VERSION_NUMBER) \
         || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
@@ -916,6 +925,7 @@ ASIO_SYNC_OP_VOID context::use_rsa_private_key(
   ::ERR_clear_error();
 
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
+      && !defined(ASIO_USE_ESP_OPENSSL)) \
       && (!defined(LIBRESSL_VERSION_NUMBER) \
         || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)
@@ -1244,6 +1254,7 @@ ASIO_SYNC_OP_VOID context::do_set_password_callback(
     detail::password_callback_base* callback, asio::error_code& ec)
 {
 #if ((OPENSSL_VERSION_NUMBER >= 0x10100000L) \
+      && !defined(ASIO_USE_ESP_OPENSSL)) \
       && (!defined(LIBRESSL_VERSION_NUMBER) \
         || LIBRESSL_VERSION_NUMBER >= 0x2070000fL)) \
     || defined(ASIO_USE_WOLFSSL)

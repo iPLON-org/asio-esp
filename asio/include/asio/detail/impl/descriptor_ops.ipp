@@ -63,7 +63,7 @@ int close(int d, state_type& state, asio::error_code& ec)
       // current OS where this behaviour is seen, Windows, says that the socket
       // remains open. Therefore we'll put the descriptor back into blocking
       // mode and have another attempt at closing it.
-#if defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
+#if defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__) 
       int flags = ::fcntl(d, F_GETFL, 0);
       if (flags >= 0)
         ::fcntl(d, F_SETFL, flags & ~O_NONBLOCK);
@@ -101,7 +101,7 @@ bool set_user_non_blocking(int d, state_type& state,
     return false;
   }
 
-#if defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
+#if defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__) || defined(ESP_PLATFORM)
   int result = ::fcntl(d, F_GETFL, 0);
   get_last_error(ec, result < 0);
   if (result >= 0)
@@ -164,7 +164,7 @@ bool set_internal_non_blocking(int d, state_type& state,
     return false;
   }
 
-#if defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__)
+#if defined(__SYMBIAN32__) || defined(__EMSCRIPTEN__) || defined(ESP_PLATFORM)
   int result = ::fcntl(d, F_GETFL, 0);
   get_last_error(ec, result < 0);
   if (result >= 0)

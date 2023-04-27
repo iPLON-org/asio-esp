@@ -564,7 +564,8 @@ bool non_blocking_connect(socket_type s, asio::error_code& ec)
   // get spurious readiness notifications from the reactor.
 #if defined(ASIO_WINDOWS) \
   || defined(__CYGWIN__) \
-  || defined(__SYMBIAN32__)
+  || defined(__SYMBIAN32__) \
+  || defined(ESP_PLATFORM)
   fd_set write_fds;
   FD_ZERO(&write_fds);
   FD_SET(s, &write_fds);
@@ -613,7 +614,7 @@ bool non_blocking_connect(socket_type s, asio::error_code& ec)
 int socketpair(int af, int type, int protocol,
     socket_type sv[2], asio::error_code& ec)
 {
-#if defined(ASIO_WINDOWS) || defined(__CYGWIN__)
+#if defined(ASIO_WINDOWS) || defined(__CYGWIN__) || defined (ESP_PLATFORM)
   (void)(af);
   (void)(type);
   (void)(protocol);
@@ -2215,7 +2216,8 @@ int poll_read(socket_type s, state_type state,
 
 #if defined(ASIO_WINDOWS) \
   || defined(__CYGWIN__) \
-  || defined(__SYMBIAN32__)
+  || defined(__SYMBIAN32__) \
+  || defined(ESP_PLATFORM)
   fd_set fds;
   FD_ZERO(&fds);
   FD_SET(s, &fds);
@@ -2267,7 +2269,8 @@ int poll_write(socket_type s, state_type state,
 
 #if defined(ASIO_WINDOWS) \
   || defined(__CYGWIN__) \
-  || defined(__SYMBIAN32__)
+  || defined(__SYMBIAN32__) \
+  || defined(ESP_PLATFORM)
   fd_set fds;
   FD_ZERO(&fds);
   FD_SET(s, &fds);
@@ -2319,7 +2322,8 @@ int poll_error(socket_type s, state_type state,
 
 #if defined(ASIO_WINDOWS) \
   || defined(__CYGWIN__) \
-  || defined(__SYMBIAN32__)
+  || defined(__SYMBIAN32__) \
+  || defined(ESP_PLATFORM)
   fd_set fds;
   FD_ZERO(&fds);
   FD_SET(s, &fds);
@@ -2370,7 +2374,8 @@ int poll_connect(socket_type s, int msec, asio::error_code& ec)
 
 #if defined(ASIO_WINDOWS) \
   || defined(__CYGWIN__) \
-  || defined(__SYMBIAN32__)
+  || defined(__SYMBIAN32__) \
+  || defined(ESP_PLATFORM)
   fd_set write_fds;
   FD_ZERO(&write_fds);
   FD_SET(s, &write_fds);
